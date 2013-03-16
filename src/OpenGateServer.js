@@ -36,7 +36,8 @@ http.createServer(function (request, response) {
 	  
 
     // get the distance between garage (Meteor 78) door and us
-	var distance = geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": la, "longitude": lo}, 10);
+
+	var distance = geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {latitude: la, longitude: lo}, 10);
 	
 	if (distance < 500) {
 	// LDAP	 
