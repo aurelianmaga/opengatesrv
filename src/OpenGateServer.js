@@ -61,6 +61,7 @@ http.createServer(function (request, response) {
 		if (canEnter) {
 			gate.flip();
 			setTimeout(3000);
+			gate.flip();
 			response.writeHead(200, {'Content-Type': 'text/plain'}); 
 			response.write("Success: " + userName + "\n");		
 		}
@@ -69,8 +70,7 @@ http.createServer(function (request, response) {
 			response.write("Not OK auth for : " + userName + "\n");
 		}	 
 		response.end();
-	}); 
-	 
+	}); 	 
 }
 ).listen(8125);
  
