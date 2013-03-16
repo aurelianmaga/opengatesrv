@@ -62,8 +62,11 @@ http.createServer(function (request, response) {
 		if (canEnter) {
 			gate.flip();
 			var start = Date.now();
+			console.log("start: " + start);
 			// expecting something close to 500
 			setTimeout(function(){ console.log(Date.now() - start); }, 3000);
+			var end = Date.now();
+			console.log("End: " + end);
 			
 			// close the door now, it was open for a few seconds
 			gate.flip();
