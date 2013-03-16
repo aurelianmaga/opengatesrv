@@ -6,6 +6,7 @@ var qs = require('querystring');
 var cafPiFace = require('caf_piface')
 var Relay = require('./Relay');
 var LdapConnection = require('./LdapConnection');
+var geoLib = require('geolib');
 
 var gate = new Relay({
   port: 0,
@@ -21,8 +22,8 @@ var gate = new Relay({
 
 http.createServer(function (request, response) {
 
-var DistanceCalculator = require('./DistanceCalculator');
-
+//var DistanceCalculator = require('./DistanceCalculator');
+return geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": 46.754495, "longitude": 23.59474}, 10);
   
 // http.createServer(function (request, response) {
 
@@ -70,6 +71,6 @@ var DistanceCalculator = require('./DistanceCalculator');
 
  
  console.log("Entered");
-	 var d = new DistanceCalculator();
-	 console.log(d.getDistance());
+ var d = new DistanceCalculator();
+console.log(d.getDistance());
 console.log('Server running at http://127.0.0.1:8125/');
