@@ -86,6 +86,10 @@ http.createServer(function (request, response) {
 		}); 
 		
 	});	
+	} else{
+		response.writeHead(500, {'Content-Type': 'text/plain'}); 
+		response.write("You are too far: " + userName + "\n");
+		response.end();
 	}
 }
 ).listen(8125);
