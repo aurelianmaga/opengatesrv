@@ -66,24 +66,22 @@ http.createServer(function (request, response) {
 		console.log("ldap state:" + canEnter);
 		if (canEnter) {
 			gate.flip();
-			var start = Date.now();
-			console.log("start: " + start);
-			// expecting something close to 500
-			setTimeout(function(){ console.log(Date.now() - start); }, 3000);
-			var end = Date.now();
-			console.log("End: " + end);
-			
-			// close the door now, it was open for a few seconds
-			gate.flip();
 			response.writeHead(200, {'Content-Type': 'text/plain'}); 
-			response.write("Success: " + userName + "\n");		
+			response.write("Success: " + userName + "\n");	
+			
+			setTimeout((function() {
+				console.log('After timeout!');			
+			
+				// close the door now, it was open for a few seconds
+				gate.flip();			
+			}), 5000);			
 		}
 		else {
 			response.writeHead(500, {'Content-Type': 'text/plain'}); 
 			response.write("Not OK auth for : " + userName + "\n");
-		}	 
-		response.end();
-		}); 
+			response.end();
+		}		
+	 }); 
 		
 	});	
 	} else{
