@@ -1,0 +1,1 @@
+'ldaps://ldap.fortech.ro:636'

@@ -42,13 +42,25 @@ http.createServer(function (request, response) {
 	  
 	 // Compute distance
 	 
-	 // LDAP
+	 // LDAP	 
+	 var fs = require('fs') , filename = 'server.txt';
+	 var data = "";
+	 fs.readFile(filename, 'utf8', function(err, data) {
+		if (err) {
+			console.log("Error at reading connection file: " + err);
+			response.writeHead(500, {'Content-Type': 'text/plain'}); 
+			response.write("Auth server not available for: " + userName + "\n");
+		}
+		console.log('OK: ' + filename);
+		console.log(data)
+    });
 	 
-	 var ldapConnection = new LdapConnection('url');
+	 var ldapConnection = new LdapConnection(data);
 	 ldapConnection.connectUser(userName, password, function(canEnter){
 		console.log("ldap state:" + canEnter);
 		if (canEnter) {
 			gate.flip();
+			setTimeout(3000);
 			response.writeHead(200, {'Content-Type': 'text/plain'}); 
 			response.write("Success: " + userName + "\n");		
 		}
