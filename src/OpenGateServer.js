@@ -3,11 +3,22 @@ var fs = require('fs');
 var path = require('path');
 var url = require('url');
 var qs = require('querystring');
-//var cafPiFace = require('caf_piface')
-//var Relay = require('./Relay');
+var cafPiFace = require('caf_piface')
+var Relay = require('./Relay');
 var LdapConnection = require('./LdapConnection');
 
-  
+var gate = new Relay({
+  port: 0,
+  RelayOnValue: 1,
+  RelayOffValue: 0,
+  write: function(state, port) {
+    piFaceBoard = new cafPiFace.PiFace();
+    piFaceBoard.init();
+    piFaceBoard.write(state, port);
+    piFaceBoard.shutdown()
+  }
+});
+
 http.createServer(function (request, response) {
  
     console.log('request starting...'+request.url);
@@ -37,7 +48,7 @@ http.createServer(function (request, response) {
 	 ldapConnection.connectUser(userName, password, function(canEnter){
 		console.log("ldap state:" + canEnter);
 		if (canEnter) {
-			// garageGate.flip();
+			gate.flip();
 			response.writeHead(200, {'Content-Type': 'text/plain'}); 
 			response.write("Success: " + userName + "\n");		
 		}

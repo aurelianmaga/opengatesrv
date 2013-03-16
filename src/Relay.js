@@ -1,14 +1,4 @@
-/*
-pif = require('caf_piface');
 
-p = new pif.PiFace();
-
-p.init();
-
-p.write(0, 0);
-
-p.shutdown();
-*/
 
 function Relay(hardware){
   var self = this;
