@@ -22,12 +22,24 @@ var gate = new Relay({
 
 http.createServer(function (request, response) {
 
-//var DistanceCalculator = require('./DistanceCalculator');
-console.log( geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": 46.754495, "longitude": 23.59474}, 10));
-  
-// http.createServer(function (request, response) {
+	 console.log('Request starting...' + request.url);
+     
+     var full_url = url.parse(request.url, true ); 
+	 var pathname = full_url.pathname; 
+	 var q_params = full_url.query;
+	 
+	 var userName = q_params.u;
+	 var password = q_params.p;
+	 var latitude = q_params.lat;
+	 var longitude = q_params.lng;
+	 console.log('Console ' + userName + "--" + password);	 
+	  
 
-	 // LDAP	 
+    // get the distance between garage (Meteor 78) door and us
+	var distance = geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": latitude, "longitude": longitude}, 10);
+	
+	if (distance < 500) {
+	// LDAP	 
 	 var fs = require('fs') , filename = 'server.txt';
 	 var data = "";
 	 fs.readFile(filename, 'utf8', function(err, data) {
@@ -66,11 +78,8 @@ console.log( geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {
 		}); 
 		
 	});	
+	}
 }
 ).listen(8125);
 
- 
- console.log("Entered");
- //var d = new DistanceCalculator();
-//console.log(d.getDistance());
 console.log('Server running at http://127.0.0.1:8125/');
