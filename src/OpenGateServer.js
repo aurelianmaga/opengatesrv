@@ -23,7 +23,7 @@ var gate = new Relay({
 http.createServer(function (request, response) {
 
 //var DistanceCalculator = require('./DistanceCalculator');
-return geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": 46.754495, "longitude": 23.59474}, 10);
+console.log( geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": 46.754495, "longitude": 23.59474}, 10));
   
 // http.createServer(function (request, response) {
 
@@ -71,6 +71,6 @@ return geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latit
 
  
  console.log("Entered");
- var d = new DistanceCalculator();
-console.log(d.getDistance());
+ //var d = new DistanceCalculator();
+//console.log(d.getDistance());
 console.log('Server running at http://127.0.0.1:8125/');
