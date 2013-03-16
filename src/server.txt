@@ -1,1 +1,1 @@
-'ldaps://ldap.fortech.ro:636'
+ldaps://ldap.fortech.ro:636
