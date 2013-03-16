@@ -61,7 +61,11 @@ http.createServer(function (request, response) {
 		console.log("ldap state:" + canEnter);
 		if (canEnter) {
 			gate.flip();
-			setTimeout(3000);
+			var start = Date.now();
+			// expecting something close to 500
+			setTimeout(function(){ console.log(Date.now() - start); }, 3000);
+			
+			// close the door now, it was open for a few seconds
 			gate.flip();
 			response.writeHead(200, {'Content-Type': 'text/plain'}); 
 			response.write("Success: " + userName + "\n");		
