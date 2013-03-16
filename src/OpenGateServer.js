@@ -64,7 +64,7 @@ http.createServer(function (request, response) {
 			var start = Date.now();
 			console.log("start: " + start);
 			// expecting something close to 500
-			setTimeout(function(){ console.log(Date.now() - start); 
+			setTimeout(function(){ console.log(Date.now() - start); }, 3000);
 			var end = Date.now();
 			console.log("End: " + end);
 			
@@ -79,7 +79,7 @@ http.createServer(function (request, response) {
 		}	 
 		response.end();
 		}); 
-		}, 3000);
+		
 	});	
 }
 ).listen(8125);
