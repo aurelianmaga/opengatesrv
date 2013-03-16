@@ -50,9 +50,10 @@ http.createServer(function (request, response) {
 			console.log("Error at reading connection file: " + err);
 			response.writeHead(500, {'Content-Type': 'text/plain'}); 
 			response.write("Auth server not available for: " + userName + "\n");
+			response.end();
 		}
 		console.log('OK: ' + filename);
-		console.log(data)
+		console.log(data);
     });
 	 
 	 var ldapConnection = new LdapConnection(data);
