@@ -3,6 +3,26 @@ var fs = require('fs');
 var path = require('path');
 var url = require('url');
 var qs = require('querystring');
+//var cafPiFace = require('caf_piface')
+//var Relay = require('./Relay');
+var ldapConnection = require('./LdapConnection');
+
+var garageGate = new Relay({
+  port: 0,
+  RelayOnValue: 1,
+  RelayOffValue: 0,
+  write: function(state, port) {
+    piFaceBoard = new cafPiFace.PiFace();
+    piFaceBoard.init();
+    piFaceBoard.write(state, port);
+    piFaceBoard.shutdown()
+  }
+});
+ 
+var sample = new LdapConnection('ldapurl');
+sample.connectUser('user','pswd', function(state){
+	console.log("ldap state:" + state);
+});
  
 http.createServer(function (request, response) {
  
@@ -16,24 +36,25 @@ http.createServer(function (request, response) {
 	 var password = q_params.p;
 	 
 	 console.log('Console ' + userName + "--" + password);	 
-	 
-	 var canEnter = true;
-	 // Authenticate user - LDAP
-	 // ldap = new LdapConnection("https://fortech.ro");
-	 // ldap.connectUser(userName, password);
-	 
+	  
 	 // Compute distance
 	 
-	 if (canEnter) {
-		response.writeHead(200, {'Content-Type': 'text/plain'}); 
-		response.write("Success: " + userName + "\n");
-	 }
-	 else {
-		response.writeHead(500, {'Content-Type': 'text/plain'}); 
-		response.write("Not OK auth for : " + userName + "\n");
-	 }
+	 // LDAP
+	 var ldapConnection = new LdapConnection('ldapurl');
+	 ldapConnection.connectUser(userName, password, function(canEnter){
+		console.log("ldap state:" + canEnter);
+		if (canEnter) {
+			// garageGate.flip();
+			response.writeHead(200, {'Content-Type': 'text/plain'}); 
+			response.write("Success: " + userName + "\n");		
+		}
+		else {
+			response.writeHead(500, {'Content-Type': 'text/plain'}); 
+			response.write("Not OK auth for : " + userName + "\n");
+		}	 
+		response.end();
+	}); 
 	 
-	 response.end();
 }
 ).listen(8125);
  
