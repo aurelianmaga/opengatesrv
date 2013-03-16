@@ -68,7 +68,7 @@ http.createServer(function (request, response) {
 			gate.flip();
 			response.writeHead(200, {'Content-Type': 'text/plain'}); 
 			response.write("Success: " + userName + "\n");	
-			
+			response.end();
 			setTimeout((function() {
 				console.log('After timeout!');			
 			
