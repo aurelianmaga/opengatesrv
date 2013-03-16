@@ -32,6 +32,7 @@ http.createServer(function (request, response) {
 	 // Compute distance
 	 
 	 // LDAP
+	 
 	 var ldapConnection = new LdapConnection('url');
 	 ldapConnection.connectUser(userName, password, function(canEnter){
 		console.log("ldap state:" + canEnter);
