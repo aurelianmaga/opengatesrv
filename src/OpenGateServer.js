@@ -30,13 +30,13 @@ http.createServer(function (request, response) {
 	 
 	 var userName = q_params.u;
 	 var password = q_params.p;
-	 var latitude = q_params.lat;
-	 var longitude = q_params.lng;
+	 var la = q_params.lat;
+	 var lo = q_params.lng;
 	 console.log('Console ' + userName + "--" + password);	 
 	  
 
     // get the distance between garage (Meteor 78) door and us
-	var distance = geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": latitude, "longitude": longitude}, 10);
+	var distance = geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {"latitude": la, "longitude": lo}, 10);
 	
 	if (distance < 500) {
 	// LDAP	 
