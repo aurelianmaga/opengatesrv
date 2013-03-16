@@ -54,7 +54,7 @@ http.createServer(function (request, response) {
 		}
 		console.log('OK: ' + filename);
 		console.log(data);
-    });
+    
 	 
 	 var ldapConnection = new LdapConnection(data);
 	 ldapConnection.connectUser(userName, password, function(canEnter){
@@ -71,7 +71,8 @@ http.createServer(function (request, response) {
 			response.write("Not OK auth for : " + userName + "\n");
 		}	 
 		response.end();
-	}); 	 
+		}); 
+	});	
 }
 ).listen(8125);
  
