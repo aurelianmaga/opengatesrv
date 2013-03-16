@@ -34,6 +34,13 @@ http.createServer(function (request, response) {
 	 var lo = q_params.lng;
 	 console.log('Console ' + userName + "--" + password);	 
 	  
+	 if(userName == undefined || password === undefined)
+-	 {
+-			response.writeHead(500, {'Content-Type': 'text/plain'}); 
+-			response.write("Not OK auth for : " + userName + "\n");
+-			response.end();
+-		return;
+-	 } 
 
     // get the distance between garage (Meteor 78) door and us
 
