@@ -11,6 +11,12 @@ var r = new Relay({
   }
 });
 
+var sample = new LdapConnection('ldapurl');
+sample.connectUser('user','pswd', function(state){
+	console.log("ldap state:" + state);
+});
+
+
 r.flip();
 
 r.flip();

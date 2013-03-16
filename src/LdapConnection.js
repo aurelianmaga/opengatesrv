@@ -7,30 +7,21 @@ function LdapConnection(ldapUrl)
 			url: ldapUrl
 	});
 	
-	self.connectUser = function (username,password)
+	self.connectUser = function (username,password, callback)
 	{
 		var dn = "uid=" +username+ ",ou=People,dc=fortech,dc=ro";	
-		var ok = true;
-			client.bind(dn,password,function(err)	
-			{
-				if (err == null)
-				{
-					console.log('Connection Succesfull');
-					ok = true;
-				}
-				else
-				{
-					console.log('Authentification failed');
-					ok = false;
-				}
-			});
-			if (ok == true)
-			{
-				client.unbind(function(err) 
-				{
-					assert.ifError(err);
-				});
+		var bindVar = true;
+		var unbindVar = true;
+		client.bind(dn,password,function(err)	
+		{
+			client.unbind(function(error){});
+			
+			if (err !== null) {
+				callback && callback(false);
+			}else{
+				callback && callback(true);
 			}
+		});
 	}
 }
 module.exports = LdapConnection;
