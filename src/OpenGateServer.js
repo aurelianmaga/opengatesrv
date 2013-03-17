@@ -43,12 +43,11 @@ http.createServer(function (request, response) {
 		return;
 	 } 
 
-    // get the distance between garage (Meteor 78) door and us
-
-	var distance = geoLib.getDistance({"latitude": config.Gate.latitude, "longitude": config.Gate.longitude}, {latitude: la, longitude: lo}, 10);
+     // get the distance between garage (Meteor 19) door and us
+	 var distance = geoLib.getDistance({"latitude": config.Gate.latitude, "longitude": config.Gate.longitude}, {latitude: la, longitude: lo}, 10);
 	
-	if (distance < config.minDistance) {
-	// LDAP	 	 
+	 if (distance < config.minDistance) {
+	 // LDAP	 	 
 	 var ldapConnection = new LdapConnection(config.ldapUrl);
    
 	 ldapConnection.connectUser(userName, password, function(canEnter){
