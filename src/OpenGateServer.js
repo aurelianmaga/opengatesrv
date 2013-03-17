@@ -90,7 +90,6 @@ var server = tls.createServer(options, function (request, response) {
 		return;
 	}
 }
-).setSecure(credentials);
-server.listen(8125);
+).listen(8125);
 
-console.log('Server running at http://127.0.0.1:8125/');
+console.log('Server running at https://127.0.0.1:8125/');
