@@ -31,7 +31,7 @@ var options = {
   cert: fs.readFileSync('certificate.pem')
 };
 
-var server = http.createServer(options, function (request, response) {
+var server = tls.createServer(options, function (request, response) {
 
 	 if (request.url != undefined){
 		console.log('Request starting...' + request.url);
