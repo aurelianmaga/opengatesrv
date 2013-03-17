@@ -27,8 +27,8 @@ var tls = require('tls');
 var fs = require('fs');
 
 var options = {
-  key: fs.readFileSync('server-key.pem'),
-  cert: fs.readFileSync('server-cert.pem')
+  key: fs.readFileSync('privatekey.pem'),
+  cert: fs.readFileSync('certificate.pem')
 };
 
 var server = http.createServer(options, function (request, response) {
