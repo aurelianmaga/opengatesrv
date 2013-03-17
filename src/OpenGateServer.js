@@ -1,4 +1,5 @@
 var http = require('http');
+const crypto = require('crypto'),
 var fs = require('fs');
 var path = require('path');
 var url = require('url');
@@ -21,7 +22,12 @@ var gate = new Relay({
   }
 });
 
-http.createServer(function (request, response) {
+var privateKey = fs.readFileSync('privatekey.pem').toString();
+var certificate = fs.readFileSync('certificate.pem').toString();
+
+var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
+
+var server = http.createServer(function (request, response) {
 
 	 if (request.url != undefined){
 		console.log('Request starting...' + request.url);
@@ -80,6 +86,7 @@ http.createServer(function (request, response) {
 		return;
 	}
 }
-).listen(8125);
+).setSecure(credentials);
+server.listen(8125);
 
 console.log('Server running at http://127.0.0.1:8125/');
