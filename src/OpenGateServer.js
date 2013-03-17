@@ -46,7 +46,8 @@ http.createServer(function (request, response) {
 
      // get the distance between garage (Meteor 19) door and us
 	 var distance = geoLib.getDistance({"latitude": config.Gate.latitude, "longitude": config.Gate.longitude}, {latitude: la, longitude: lo}, 10);
-	
+	 console.log ("Distance is: " + distance);
+	 
 	 if (distance < config.minDistance) {
 		 // LDAP	 	 
 		 var ldapConnection = new LdapConnection(config.ldapUrl);	   
