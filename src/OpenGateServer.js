@@ -7,6 +7,7 @@ var cafPiFace = require('caf_piface')
 var Relay = require('./Relay');
 var LdapConnection = require('./LdapConnection');
 var geoLib = require('geolib');
+var config = require('./config');
 
 var gate = new Relay({
   port: 0,
@@ -44,24 +45,12 @@ http.createServer(function (request, response) {
 
     // get the distance between garage (Meteor 78) door and us
 
-	var distance = geoLib.getDistance({"latitude": 46.75436, "longitude": 23.59012}, {latitude: la, longitude: lo}, 10);
+	var distance = geoLib.getDistance({"latitude": config.Gate.latitude, "longitude": config.Gate.longitude}, {latitude: la, longitude: lo}, 10);
 	
-	if (distance < 500) {
-	// LDAP	 
-	 var fs = require('fs') , filename = 'server.txt';
-	 var data = "";
-	 fs.readFile(filename, 'utf8', function(err, data) {
-		if (err) {
-			console.log("Error at reading connection file: " + err);
-			response.writeHead(500, {'Content-Type': 'text/plain'}); 
-			response.write("Auth server not available for: " + userName + "\n");
-			response.end();
-		}
-		console.log('OK: ' + filename);
-		console.log(data);
-    
-	 
-	 var ldapConnection = new LdapConnection(data);
+	if (distance < config.minDistance) {
+	// LDAP	 	 
+	 var ldapConnection = new LdapConnection(config.ldapUrl);
+   
 	 ldapConnection.connectUser(userName, password, function(canEnter){
 		console.log("ldap state:" + canEnter);
 		if (canEnter) {
@@ -83,7 +72,7 @@ http.createServer(function (request, response) {
 		}		
 	 }); 
 		
-	});	
+
 	} else{
 		response.writeHead(500, {'Content-Type': 'text/plain'}); 
 		response.write("You are too far: " + userName + "\n");
