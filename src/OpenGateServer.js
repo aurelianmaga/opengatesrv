@@ -1,5 +1,5 @@
 var http = require('http');
-const crypto = require('crypto'),
+const crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
 var url = require('url');
