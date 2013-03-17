@@ -5,10 +5,12 @@ var fs = require('fs');
 var path = require('path');
 var url = require('url');
 var qs = require('querystring');
+var geoLib = require('geolib');
+
 var cafPiFace = require('caf_piface')
 var Relay = require('./Relay');
 var LdapConnection = require('./LdapConnection');
-var geoLib = require('geolib');
+
 var config = require('./config');
 
 var gate = new Relay({
@@ -28,11 +30,12 @@ var tls = require('tls');
 var fs = require('fs');
 
 var options = {
-  key: fs.readFileSync('privatekey.pem'),
-  cert: fs.readFileSync('certificate.pem')
+  key: fs.readFileSync(config.privateKeyFile),
+  cert: fs.readFileSync(config.certificateFile)
 };
 
-var server = https.createServer(options, function (request, response) {
+//var server = https.createServer(options, function (request, response) {
+var server = http.createServer(function (request, response) {
 
 	 if (request.url != undefined){
 		console.log('Request starting...' + request.url);
@@ -93,4 +96,4 @@ var server = https.createServer(options, function (request, response) {
 }
 ).listen(8125);
 
-console.log('Server running at https://127.0.0.1:8125/');
+console.log('Server running at http://127.0.0.1:8125/');
