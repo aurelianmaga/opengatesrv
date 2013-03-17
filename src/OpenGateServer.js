@@ -22,12 +22,16 @@ var gate = new Relay({
   }
 });
 
-var privateKey = fs.readFileSync('privatekey.pem').toString();
-var certificate = fs.readFileSync('certificate.pem').toString();
 
-var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
+var tls = require('tls');
+var fs = require('fs');
 
-var server = http.createServer(function (request, response) {
+var options = {
+  key: fs.readFileSync('server-key.pem'),
+  cert: fs.readFileSync('server-cert.pem')
+};
+
+var server = http.createServer(options, function (request, response) {
 
 	 if (request.url != undefined){
 		console.log('Request starting...' + request.url);
