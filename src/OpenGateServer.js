@@ -23,8 +23,9 @@ var gate = new Relay({
 
 http.createServer(function (request, response) {
 
-	 console.log('Request starting...' + request.url);
-     
+	 if (request.url != undefined){
+		console.log('Request starting...' + request.url);
+     }
      var full_url = url.parse(request.url, true ); 
 	 var pathname = full_url.pathname; 
 	 var q_params = full_url.query;
@@ -37,9 +38,9 @@ http.createServer(function (request, response) {
 	  
 	 if(userName == undefined || password === undefined)
 	 {
-			response.writeHead(500, {'Content-Type': 'text/plain'}); 
-			response.write("Not OK auth for : " + userName + "\n");
-			response.end();
+		response.writeHead(500, {'Content-Type': 'text/plain'}); 
+		response.write("Not OK auth for : " + userName + "\n");
+		response.end();
 		return;
 	 } 
 
@@ -47,35 +48,35 @@ http.createServer(function (request, response) {
 	 var distance = geoLib.getDistance({"latitude": config.Gate.latitude, "longitude": config.Gate.longitude}, {latitude: la, longitude: lo}, 10);
 	
 	 if (distance < config.minDistance) {
-	 // LDAP	 	 
-	 var ldapConnection = new LdapConnection(config.ldapUrl);
-   
-	 ldapConnection.connectUser(userName, password, function(canEnter){
-		console.log("ldap state:" + canEnter);
-		if (canEnter) {
-			gate.flip();
-			response.writeHead(200, {'Content-Type': 'text/plain'}); 
-			response.write("Success: " + userName + "\n");	
-			response.end();
-			setTimeout((function() {
-				console.log('After timeout!');			
-			
-				// close the door now, it was open for a few seconds
-				gate.flip();			
-			}), 5000);			
-		}
-		else {
-			response.writeHead(500, {'Content-Type': 'text/plain'}); 
-			response.write("Not OK auth for : " + userName + "\n");
-			response.end();
-		}		
-	 }); 
+		 // LDAP	 	 
+		 var ldapConnection = new LdapConnection(config.ldapUrl);	   
+		 ldapConnection.connectUser(userName, password, function(canEnter){
+			console.log("ldap state:" + canEnter);
+			if (canEnter) {
+				gate.flip();
+				response.writeHead(200, {'Content-Type': 'text/plain'}); 
+				response.write("Success: " + userName + "\n");	
+				response.end();
+				setTimeout((function() {
+					console.log('After timeout!');			
+				
+					// close the door now, it was open for a few seconds
+					gate.flip();			
+				}), config.gateOpenTime);	
+				return;	
+			}
+			else {
+				response.writeHead(500, {'Content-Type': 'text/plain'}); 
+				response.write("Not OK auth for: " + userName + "\n");
+				response.end();
+			}		
+		 }); 
 		
-
-	} else{
+	 } else{
 		response.writeHead(500, {'Content-Type': 'text/plain'}); 
 		response.write("You are too far: " + userName + "\n");
 		response.end();
+		return;
 	}
 }
 ).listen(8125);
