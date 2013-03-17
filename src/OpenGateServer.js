@@ -1,4 +1,5 @@
 var http = require('http');
+var https = require('https');
 const crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
@@ -31,7 +32,7 @@ var options = {
   cert: fs.readFileSync('certificate.pem')
 };
 
-var server = tls.createServer(options, function (request, response) {
+var server = https.createServer(options, function (request, response) {
 
 	 if (request.url != undefined){
 		console.log('Request starting...' + request.url);
